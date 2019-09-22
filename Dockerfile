@@ -1,4 +1,4 @@
-FROM gulli/cloudformation-deployer:0.1
+FROM gulli/cloudformation-deployer:0.1-7
 
 ADD . .
 
