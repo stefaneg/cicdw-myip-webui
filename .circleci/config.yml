@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    docker:
+    - image: docker:17.05.0-ce-git
+
+    working_directory: ~/workdir
+
+    steps:
+    - checkout
+    - setup_remote_docker
+    - restore_cache:
+        keys:
+        - v1-{{ .Branch }}
+        paths:
+        - /caches/layercache.tar
+    - run:
+        name: Install bash
+        command: |
+          set +o pipefail
+          apk --no-cache update && apk --no-cache add bash
+    - run:
+        name: Load Docker image layer cache
+        command: |
+          mkdir -p /caches
+          set +o pipefail
+          docker load -i /caches/layercache.tar | true
+    - run:
+        name: Build application Docker image
+        command: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWD
+
+          export DOCKER_REPO_NAME=gulli/cicdw-myip-api
+          export PUSHARG=
+          pwd
+          ls -lart
+          (./build-docker.sh ${PUSHARG})
+    - save_cache:
+        key: v1-{{ .Branch }}-{{ epoch }}
+        paths:
+        - /caches/layercache.tar
