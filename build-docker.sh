@@ -20,6 +20,8 @@ fi
 
 export SEMANTIC_VERSION=${MAJOR_MINOR}-${BUILD_NUMBER}
 
+echo ${SEMANTIC_VERSION} > cicdversion.txt
+
 if [ -z "${DOCKER_IMAGE}" ]; then
 	export DOCKER_IMAGE=${DOCKER_REPO_NAME}:${SEMANTIC_VERSION}
 fi

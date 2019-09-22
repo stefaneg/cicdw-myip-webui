@@ -5,12 +5,11 @@
 set -e
 
 export INFRASTRUCTURE_STACK_NAME=$1
-export WEB_API_BRANCH_NAME=$2
-export BRANCH_NAME=$3
+export BRANCH_NAME=$2
 
 requireVariable INFRASTRUCTURE_STACK_NAME
-requireVariable WEB_API_BRANCH_NAME
 requireVariable BRANCH_NAME
+requireVariable WEB_API_BRANCH_NAME
 
 
 export WEB_API_STACK_NAME=myip-${WEB_API_BRANCH_NAME}
